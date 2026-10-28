@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /ocorrencias/{id} {
+      allow read, create: if request.auth != null;
+      allow update, delete: if request.auth != null && resource.data.autorId == request.auth.uid;
+      match /pistas/{pid} {
+        allow read, create: if request.auth != null;
+      }
+    }
+  }
+}
